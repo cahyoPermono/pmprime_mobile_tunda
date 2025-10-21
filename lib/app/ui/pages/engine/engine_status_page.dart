@@ -32,7 +32,9 @@ class EngineStatusPage extends GetView<EngineController> {
                   ),
                   const SizedBox(height: 16),
                   Obx(
-                    () => _StatusIndicator(status: controller.currentStatus.value),
+                    () => _StatusIndicator(
+                      status: controller.currentStatus.value,
+                    ),
                   ),
                   const SizedBox(height: 32),
                   Obx(
@@ -51,10 +53,7 @@ class EngineStatusPage extends GetView<EngineController> {
                   Obx(
                     () => Text(
                       'Last Update: ${controller.lastUpdate.value}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                   ),
                 ],
@@ -95,7 +94,9 @@ class _StatusIndicator extends StatelessWidget {
               color: isEngineOn ? Colors.green : Colors.red,
               boxShadow: [
                 BoxShadow(
-                  color: (isEngineOn ? Colors.green : Colors.red).withOpacity(0.5),
+                  color: (isEngineOn ? Colors.green : Colors.red).withValues(
+                    alpha: 0.5,
+                  ),
                   blurRadius: 5,
                   spreadRadius: 1,
                 ),
@@ -138,7 +139,9 @@ class _EngineToggleButton extends StatelessWidget {
           color: isEngineOn ? Colors.green : Colors.red,
           boxShadow: [
             BoxShadow(
-              color: (isEngineOn ? Colors.green : Colors.red).withOpacity(0.4),
+              color: (isEngineOn ? Colors.green : Colors.red).withValues(
+                alpha: 0.4,
+              ),
               blurRadius: 15,
               spreadRadius: 2,
               offset: const Offset(0, 5),
@@ -146,11 +149,7 @@ class _EngineToggleButton extends StatelessWidget {
           ],
         ),
         child: const Center(
-          child: Icon(
-            Icons.power_settings_new,
-            size: 70,
-            color: Colors.white,
-          ),
+          child: Icon(Icons.power_settings_new, size: 70, color: Colors.white),
         ),
       ),
     );

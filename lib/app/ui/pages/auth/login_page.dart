@@ -31,7 +31,7 @@ class LoginPage extends GetView<AuthController> {
               width: 200,
               height: 200,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
             ),
@@ -43,7 +43,7 @@ class LoginPage extends GetView<AuthController> {
               width: 150,
               height: 150,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
             ),
@@ -90,7 +90,7 @@ class _LogoAndTitle extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               ),
@@ -123,10 +123,7 @@ class _LogoAndTitle extends StatelessWidget {
         const SizedBox(height: 8),
         const Text(
           'Sistem Pemanduan Kapal Tunda',
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white70,
-          ),
+          style: TextStyle(fontSize: 16, color: Colors.white70),
         ),
       ],
     );
@@ -143,7 +140,7 @@ class _LoginForm extends GetView<AuthController> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -158,7 +155,10 @@ class _LoginForm extends GetView<AuthController> {
               controller: controller.kodeKapalController,
               decoration: InputDecoration(
                 labelText: 'Kode Kapal',
-                prefixIcon: const Icon(Icons.directions_boat, color: Color(0xFF1976D2)),
+                prefixIcon: const Icon(
+                  Icons.directions_boat,
+                  color: Color(0xFF1976D2),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -178,7 +178,10 @@ class _LoginForm extends GetView<AuthController> {
               controller: controller.kodeCabangController,
               decoration: InputDecoration(
                 labelText: 'Kode Cabang',
-                prefixIcon: const Icon(Icons.business, color: Color(0xFF1976D2)),
+                prefixIcon: const Icon(
+                  Icons.business,
+                  color: Color(0xFF1976D2),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -199,7 +202,8 @@ class _LoginForm extends GetView<AuthController> {
               height: 50,
               child: Obx(
                 () => ElevatedButton(
-                  onPressed: controller.isLoading.value ? null : controller.login,
+                  onPressed:
+                      controller.isLoading.value ? null : controller.login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFF9800),
                     foregroundColor: Colors.white,
@@ -207,24 +211,27 @@ class _LoginForm extends GetView<AuthController> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     elevation: 5,
-                    shadowColor: Colors.orange.withOpacity(0.5),
+                    shadowColor: Colors.orange.withValues(alpha: 0.5),
                   ),
-                  child: controller.isLoading.value
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  child:
+                      controller.isLoading.value
+                          ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                          : const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        )
-                      : const Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                 ),
               ),
             ),
@@ -233,28 +240,36 @@ class _LoginForm extends GetView<AuthController> {
 
             // Error Message
             Obx(
-              () => controller.errorMessage.value.isNotEmpty
-                  ? Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade50,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.red.shade200),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.error_outline, color: Colors.red, size: 20),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              controller.errorMessage.value,
-                              style: TextStyle(color: Colors.red.shade700, fontSize: 14),
+              () =>
+                  controller.errorMessage.value.isNotEmpty
+                      ? Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.red.shade200),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 20,
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                controller.errorMessage.value,
+                                style: TextStyle(
+                                  color: Colors.red.shade700,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                      : const SizedBox.shrink(),
             ),
           ],
         ),

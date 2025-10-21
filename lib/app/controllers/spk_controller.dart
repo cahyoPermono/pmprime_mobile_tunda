@@ -200,8 +200,8 @@ class SpkController extends GetxController {
     }
   }
 
-  void refreshData() {
-    loadSpkData();
+  Future<void> refreshData() async {
+    await loadSpkData();
   }
 
   void clearBadge() {

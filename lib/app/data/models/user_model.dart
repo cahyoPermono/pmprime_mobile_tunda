@@ -23,7 +23,7 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      kodeKapal: json['kodeKapal']?.toString(),
+      kodeKapal: json['noRegistrasi']?.toString(),
       kodeCabang: json['kodeCabang']?.toString(),
       namaKapal: json['namaKapal']?.toString(),
       namaPerusahaan: json['namaPerusahaan']?.toString(),
@@ -52,7 +52,7 @@ class UserModel {
     };
   }
 
-  String get fullUsername => '$kodeKapal$kodeCabang';
+  String get fullUsername => '${kodeKapal}_$kodeCabang';
 
   bool get isValid => kodeKapal != null && kodeCabang != null;
 }
