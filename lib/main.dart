@@ -9,17 +9,21 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize services
-  await Get.putAsync<StorageService>(() async {
+  final storageService = await Get.putAsync<StorageService>(() async {
     final storageService = StorageService();
     await storageService.init();
     return storageService;
   });
 
-  runApp(const VasaMobileTundaApp());
+  // Determine initial route
+  final String initialRoute = await storageService.hasLoggedIn() ? Routes.main : Routes.login;
+
+  runApp(VasaMobileTundaApp(initialRoute: initialRoute));
 }
 
 class VasaMobileTundaApp extends StatelessWidget {
-  const VasaMobileTundaApp({super.key});
+  final String initialRoute;
+  const VasaMobileTundaApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class VasaMobileTundaApp extends StatelessWidget {
         ),
       ),
       initialBinding: InitialBinding(),
-      initialRoute: Routes.login,
+      initialRoute: initialRoute,
       getPages: AppPages.routes,
     );
   }
