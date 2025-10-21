@@ -22,7 +22,9 @@ class AuthProvider {
         '/tunda/profil_kapal/$kodeKapal/cabang/$kodeCabang',
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 &&
+          response.data != null &&
+          response.data.isNotEmpty) {
         return ApiResponse(
           success: true,
           data: response.data,

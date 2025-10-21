@@ -30,8 +30,8 @@ class AuthController extends GetxController {
 
   @override
   void onClose() {
-    kodeKapalController.dispose();
-    kodeCabangController.dispose();
+    // TextEditingControllers will be garbage collected automatically
+    // No need to dispose them manually to avoid issues with fenix: true
     super.onClose();
   }
 
@@ -78,7 +78,7 @@ class AuthController extends GetxController {
 
       final result = await _authProvider.login(kodeKapal, kodeCabang);
 
-      if (result.success && result.data != null) {
+      if (result.success && result.data != null && result.data!.isNotEmpty) {
         // Create user model from response
         final user = UserModel.fromJson(result.data);
         currentUser.value = user;
@@ -89,7 +89,7 @@ class AuthController extends GetxController {
         await _storageService.setProfileData(result.data);
 
         // Initialize MQTT connection
-        await _initializeMqtt();
+        _initializeMqtt();
 
         // Clear form
         kodeKapalController.clear();
@@ -109,11 +109,6 @@ class AuthController extends GetxController {
 
   Future<void> logout() async {
     try {
-      // Clear form
-      kodeKapalController.clear();
-      kodeCabangController.clear();
-      errorMessage.value = '';
-
       // Disconnect MQTT
       _mqttService.disconnect();
 

@@ -8,24 +8,6 @@ class SpkListPage extends GetView<SpkController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/images/tundatop.png',
-              height: 32,
-              errorBuilder: (context, error, stackTrace) {
-                return const SizedBox.shrink();
-              },
-            ),
-            const SizedBox(width: 8),
-            const Text('SPK Hari Ini'),
-          ],
-        ),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: Obx(
         () =>
             controller.isLoading.value
