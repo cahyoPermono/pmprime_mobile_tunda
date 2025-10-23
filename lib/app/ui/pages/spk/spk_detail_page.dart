@@ -184,7 +184,7 @@ class _SpkDetailPageState extends State<SpkDetailPage> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Color.fromRGBO(0, 0, 0, 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -416,7 +416,7 @@ class _SpkDetailPageState extends State<SpkDetailPage> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Color.fromRGBO(0, 0, 0, 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

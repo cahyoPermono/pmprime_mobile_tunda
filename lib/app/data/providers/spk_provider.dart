@@ -1,29 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:vasa_mobile_tunda_flutter/app/data/models/api_response.dart';
+import 'package:vasa_mobile_tunda_flutter/app/data/providers/base_provider.dart';
 
-class SpkProvider {
-  final Dio _dio = Dio();
-  static const String _baseUrl = 'http://pmprime.imaniprima.co.id/api/mobile';
+class SpkProvider extends BaseProvider {
 
-  SpkProvider() {
-    _dio.options.baseUrl = _baseUrl;
-    _dio.options.connectTimeout = const Duration(seconds: 60);
-    _dio.options.receiveTimeout = const Duration(seconds: 60);
-    _dio.options.headers = {'Content-Type': 'application/json'};
-    _dio.options.validateStatus = (status) => status! < 500;
+  SpkProvider() : super() {
+    // Specific configurations for SpkProvider if any
+    // super.dio.options.validateStatus = (status) => status! < 500;
   }
 
   /// Load SPK data by Notification
   Future<ApiResponse> loadSpkData(String notifId) async {
     try {
-      final response = await _dio.get('/surat_perintah_kerja_pandu/$notifId');
+      final response = await super.dio.get('/surat_perintah_kerja_pandu/$notifId');
       if (response.statusCode == 200) {
         return ApiResponse.success(data: response.data);
       } else {
         return ApiResponse.error(message: 'Failed to load SPK data');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -32,14 +28,14 @@ class SpkProvider {
   /// Load SPK details by ID
   Future<ApiResponse> loadSpkDetails(String id) async {
     try {
-      final response = await _dio.get('/surat_perintah_kerja_tunda/$id');
+      final response = await super.dio.get('/surat_perintah_kerja_tunda/$id');
       if (response.statusCode == 200) {
         return ApiResponse.success(data: response.data);
       } else {
         return ApiResponse.error(message: 'Failed to load SPK details');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -52,7 +48,7 @@ class SpkProvider {
     String username,
   ) async {
     try {
-      final response = await _dio.get(
+      final response = await super.dio.get(
         '/progress_spk/kode_kapal_tunda/$username',
         queryParameters: {'tglMulai': startDate, 'tglSelesai': endDate},
       );
@@ -63,7 +59,7 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to load SPK realization');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -86,7 +82,7 @@ class SpkProvider {
       if (jenisJasa != null) queryParams['jenisJasa'] = jenisJasa;
       if (flagDone != null) queryParams['flagDone'] = flagDone.toString();
 
-      final response = await _dio.get(
+      final response = await super.dio.get(
         '/progress_spk/kode_kapal_tunda/$username',
         queryParameters: queryParams,
       );
@@ -97,7 +93,7 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to load history realization');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -106,7 +102,7 @@ class SpkProvider {
   /// Load history by SPK number
   Future<ApiResponse> loadHistoryBySpk(String noSpk) async {
     try {
-      final response = await _dio.get('/progress_spk/nomor_spk/$noSpk');
+      final response = await super.dio.get('/progress_spk/nomor_spk/$noSpk');
 
       if (response.statusCode == 200) {
         return ApiResponse.success(data: response.data);
@@ -114,7 +110,7 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to load SPK history');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -135,7 +131,7 @@ class SpkProvider {
         'tglTahapan': tglTahapan,
       };
 
-      final response = await _dio.post('/progress_spk', data: body);
+      final response = await super.dio.post('/progress_spk', data: body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse.success(
@@ -146,7 +142,7 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to update progress');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -155,7 +151,7 @@ class SpkProvider {
   /// Mark progress as done
   Future<ApiResponse> markProgressAsDone(String id) async {
     try {
-      final response = await _dio.put(
+      final response = await super.dio.put(
         '/progress_spk/spk_tunda/$id/set_as_done',
       );
 
@@ -168,7 +164,7 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to mark progress as done');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -177,7 +173,7 @@ class SpkProvider {
   /// Load progress by Pandu SPK number
   Future<ApiResponse> loadProgressByPanduSpk(String nomorSpkPandu) async {
     try {
-      final response = await _dio.get('/progress_spk/nomor_spk/$nomorSpkPandu');
+      final response = await super.dio.get('/progress_spk/nomor_spk/$nomorSpkPandu');
 
       if (response.statusCode == 200) {
         return ApiResponse.success(data: response.data);
@@ -185,7 +181,7 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to load Pandu progress');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -194,7 +190,7 @@ class SpkProvider {
   /// Post engine status
   Future<ApiResponse> postEngineStatus(Map<String, dynamic> engineData) async {
     try {
-      final response = await _dio.post(
+      final response = await super.dio.post(
         '/tunda/status_engine_kapal',
         data: engineData,
       );
@@ -208,7 +204,7 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to update engine status');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
@@ -219,7 +215,7 @@ class SpkProvider {
     Map<String, dynamic> progressData,
   ) async {
     try {
-      final response = await _dio.post('/kinerja_tunda', data: progressData);
+      final response = await super.dio.post('/kinerja_tunda', data: progressData);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse.success(
@@ -230,25 +226,9 @@ class SpkProvider {
         return ApiResponse.error(message: 'Failed to post bulk progress');
       }
     } on DioException catch (e) {
-      return _handleDioError(e);
+      return super.handleDioError(e);
     } catch (e) {
       return ApiResponse.error(message: 'Unexpected error: ${e.toString()}');
     }
-  }
-
-  /// Helper method to handle Dio errors
-  ApiResponse _handleDioError(DioException e) {
-    String errorMessage = 'Network error occurred';
-
-    if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      errorMessage = 'Connection timeout';
-    } else if (e.type == DioExceptionType.badResponse) {
-      errorMessage = 'Server error: ${e.response?.statusCode}';
-    } else if (e.type == DioExceptionType.unknown) {
-      errorMessage = 'Unable to connect to server';
-    }
-
-    return ApiResponse.error(message: errorMessage);
   }
 }
