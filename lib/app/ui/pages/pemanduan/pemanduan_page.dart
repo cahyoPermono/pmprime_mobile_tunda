@@ -125,7 +125,7 @@ class _PemanduanPageState extends State<PemanduanPage> {
                       Text(
                         _controller.currentSpkName,
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF0D47A1),
                         ),
@@ -133,7 +133,7 @@ class _PemanduanPageState extends State<PemanduanPage> {
                       const SizedBox(height: 4),
                       Text(
                         'No. SPK: ${_controller.currentSpk.value?.nomorSpk ?? 'N/A'}',
-                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                        style: TextStyle(fontSize: 15, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -147,20 +147,28 @@ class _PemanduanPageState extends State<PemanduanPage> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text(
-                    'AKTIF',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.white, size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        'AKTIF',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const Divider(height: 24, thickness: 1),
             Row(
               children: [
+                const Icon(Icons.location_on, color: Colors.grey, size: 20),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     'Asal: ${_controller.currentSpk.value?.namaLokasiTundaAsal ?? 'N/A'}',
@@ -168,6 +176,8 @@ class _PemanduanPageState extends State<PemanduanPage> {
                   ),
                 ),
                 const SizedBox(width: 16),
+                const Icon(Icons.flag, color: Colors.grey, size: 20),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     'Tujuan: ${_controller.currentSpk.value?.namaLokasiTundaTujuan ?? 'N/A'}',
@@ -184,7 +194,7 @@ class _PemanduanPageState extends State<PemanduanPage> {
 
   Widget _buildWorkflowSteps() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -222,79 +232,79 @@ class _PemanduanPageState extends State<PemanduanPage> {
                       return IntrinsicHeight(
                         child: Row(
                           children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
+                            Column(
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        isCompleted
+                                            ? Colors.green
+                                            : Colors.grey[300],
+                                    border: Border.all(
                                       color:
                                           isCompleted
                                               ? Colors.green
-                                              : Colors.grey[300],
-                                      border: Border.all(
-                                        color:
-                                            isCompleted
-                                                ? Colors.green
-                                                : Colors.grey[400]!,
-                                        width: 3,
-                                      ),
+                                              : Colors.grey[400]!,
+                                      width: 3,
                                     ),
-                                    child: Center(
-                                      child:
-                                          isCompleted
-                                              ? const Icon(
-                                                Icons.check,
-                                                color: Colors.white,
-                                                size: 24,
-                                              )
-                                              : Text(
-                                                '${index + 1}',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color:
-                                                      isCompleted
-                                                          ? Colors.white
-                                                          : Colors.grey[600],
-                                                  fontSize: 16,
-                                                ),
+                                  ),
+                                  child: Center(
+                                    child:
+                                        isCompleted
+                                            ? const Icon(
+                                              Icons.check,
+                                              color: Colors.white,
+                                              size: 24,
+                                            )
+                                            : Text(
+                                              '${index + 1}',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    isCompleted
+                                                        ? Colors.white
+                                                        : Colors.grey[600],
+                                                fontSize: 16,
                                               ),
-                                    ),
+                                            ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    step['title'] as String,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          isCompleted
-                                              ? Colors.green
-                                              : Colors.grey[700],
-                                    ),
-                                    textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  step['title'] as String,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color:
+                                        isCompleted
+                                            ? Colors.green
+                                            : Colors.grey[700],
                                   ),
-                                  if (isCompleted &&
-                                      step['value'] != '00:00:00')
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4),
-                                      child: Text(
-                                        step['value'] as String,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                        ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                if (isCompleted &&
+                                    step['value'] != '00:00:00')
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Text(
+                                      step['value'] as String,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                ],
-                              ),
+                                  ),
+                              ],
                             ),
                             if (!isLast)
                               Expanded(
                                 child: Container(
                                   height: 3,
+                                  margin: const EdgeInsets.symmetric(horizontal: 8),
                                   color:
                                       isCompleted
                                           ? Colors.green
@@ -340,6 +350,7 @@ class _PemanduanPageState extends State<PemanduanPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    elevation: 3,
                   ),
                 ),
               );
@@ -398,6 +409,7 @@ class _PemanduanPageState extends State<PemanduanPage> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
+                                elevation: 3,
                               ),
                             ),
                           ),
