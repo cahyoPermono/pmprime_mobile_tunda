@@ -7,9 +7,10 @@ class SpkProvider {
 
   SpkProvider() {
     _dio.options.baseUrl = _baseUrl;
-    _dio.options.connectTimeout = const Duration(seconds: 30);
-    _dio.options.receiveTimeout = const Duration(seconds: 30);
+    _dio.options.connectTimeout = const Duration(seconds: 60);
+    _dio.options.receiveTimeout = const Duration(seconds: 60);
     _dio.options.headers = {'Content-Type': 'application/json'};
+    _dio.options.validateStatus = (status) => status! < 500;
   }
 
   /// Load SPK data by Notification

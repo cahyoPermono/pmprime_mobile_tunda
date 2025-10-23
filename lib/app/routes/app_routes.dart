@@ -7,5 +7,6 @@ abstract class Routes {
   static const spkDetail = '/spk-detail';
   static const pemanduan = '/pemanduan';
   static const monitoring = '/monitoring';
+  static const historyRealisasi = '/history-realisasi';
   static const account = '/account';
 }

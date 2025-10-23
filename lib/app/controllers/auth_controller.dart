@@ -100,7 +100,9 @@ class AuthController extends GetxController {
       } else {
         errorMessage.value = result.message ?? 'Login gagal';
       }
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint('Error during login: $e');
+      debugPrint('Stack trace: $st');
       errorMessage.value = 'Terjadi kesalahan: ${e.toString()}';
     } finally {
       isLoading.value = false;

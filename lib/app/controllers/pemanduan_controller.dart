@@ -97,8 +97,13 @@ class PemanduanController extends GetxController {
 
       // Update step status and time
       final now = DateFormat('HH:mm:ss').format(DateTime.now());
-      workflow[stepIndex]['status'] = true;
-      workflow[stepIndex]['value'] = now;
+
+      // Update workflow step
+      final updatedStep = Map<String, dynamic>.from(workflow[stepIndex]);
+      updatedStep['status'] = true;
+      updatedStep['value'] = now;
+
+      workflow[stepIndex] = updatedStep;
 
       // Update reactive variables for UI
       if (stepId == 'tug_fast') {
@@ -117,11 +122,7 @@ class PemanduanController extends GetxController {
       }
 
       // Add to status template
-      _addStatusTemplate(
-        workflow[stepIndex]['title'],
-        now,
-        workflow[stepIndex]['tahapPandu'],
-      );
+      _addStatusTemplate(updatedStep['title'], now, updatedStep['tahapPandu']);
 
       // Calculate time difference if applicable
       if (stepIndex > 0) {
@@ -230,7 +231,10 @@ class PemanduanController extends GetxController {
     try {
       if (currentSpk.value == null) return false;
 
-      // Post bulk progress data
+      // Show loading in UI
+      isLoading.value = true;
+
+      // Post bulk progress data first
       final bulkData = {
         'flagBatal': false,
         'kodeKapalTunda': currentSpk.value!.kodeKapal ?? '',
@@ -243,12 +247,21 @@ class PemanduanController extends GetxController {
         'waktuTugOff': '2024-01-01T${tugOffTime.value}',
       };
 
-      await _spkProvider.postBulkProgress(bulkData);
+      debugPrint('Posting bulk progress data: $bulkData');
+      final bulkResult = await _spkProvider.postBulkProgress(bulkData);
+
+      if (!bulkResult.success) {
+        errorMessage.value =
+            'Failed to post bulk progress: ${bulkResult.message}';
+        return false;
+      }
 
       // Mark as done in API
+      debugPrint('Marking progress as done for ID: ${currentSpk.value!.id}');
       final result = await _spkProvider.markProgressAsDone(
         currentSpk.value!.id!,
       );
+
       if (result.success) {
         // Clear workflow data
         await _storageService.clearPemanduanData();
@@ -266,12 +279,16 @@ class PemanduanController extends GetxController {
 
         return true;
       } else {
-        errorMessage.value = result.message ?? 'Failed to finish pemanduan';
+        errorMessage.value =
+            'Failed to mark progress as done: ${result.message}';
         return false;
       }
     } catch (e) {
+      debugPrint('Error in finishPemanduan: $e');
       errorMessage.value = 'Error finishing pemanduan: ${e.toString()}';
       return false;
+    } finally {
+      isLoading.value = false;
     }
   }
 
